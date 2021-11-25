@@ -2,6 +2,8 @@
 
 This is a mod/patch for Monster Hunter Freedom Unite that will allow you to randomize the colors of the monsters. I've included files and instructions for how to colorize and patch your copy of the game which guarantees that you'll be fighting 100% unique monsters!
 
+[Link to example collage...](images/001_FUCR_collage.jpg)
+
 ## How does the patch work?
 
 We're going to open up the game file, find the texture files for the monsters, then use a python script to edit the colors (mostly by shifting hues). Then we'll use some pre-existing tools to pack everything back up into an iso image.
