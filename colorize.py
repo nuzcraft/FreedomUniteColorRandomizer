@@ -25,6 +25,8 @@ def shift_hue2(arr, new_hues, sat_diff, val_diff, hue_diff_array, invert):
     for idx1,hue_array in enumerate(h):
         for idx2, hue in enumerate(hue_array):
             for idx3, new_hue in enumerate(new_hues):
+                # check to see which band the original hue is in and change it to 
+                # match the hue passed in. Do the same with s and V.
                 if hue >= hue_diff_arr[idx3] and hue <= hue_diff_arr[idx3+1]:
                     h[idx1][idx2] = new_hue
                     new_s = s[idx1][idx2] + sat_diff[idx3]
@@ -75,6 +77,10 @@ if __name__=='__main__':
     imgs_for_palette = []
     imgs = []
     files = []
+
+    # we create 2 lists of images because we only want to create a palette based on the
+    # primary folder. This way we create a palette based on velocidrome, then apply the 
+    # same hue changes to velociprey 
     for directory in ls_directories:
         for file in os.listdir(directory):
             if file.endswith('.png'):
@@ -91,6 +97,8 @@ if __name__=='__main__':
                     imgs.append(Image.open(filename))
                     files.append(filename)
 
+    # take all the images in the folder and merge them into a super image that we 
+    # can pull a full palette from. This new image will be deleted later
     img_size = imgs_for_palette[0].size
     merged_image = Image.new('RGBA', (len(imgs)*img_size[0], img_size[1]))
     for idx, png in enumerate(imgs_for_palette):
@@ -99,11 +107,15 @@ if __name__=='__main__':
     merged_filename = ls_directories[0] + '/merged.png'
     merged_image.save(merged_filename)
 
+    #color thief generates the palette
     color_thief = ColorThief(merged_filename)
     palette = color_thief.get_palette(color_count=colorCount) #8 maybe too busy?
 
+    # once the palette is generated, remove the merged image
     os.remove(merged_filename)
 
+    # take the palette and get the hues for that palette
+    # we'll use these to create a range of hues randomize to the same destination hue
     hue_arr = []
     for idx, val in enumerate(palette):
         r, g, b = val
@@ -112,6 +124,9 @@ if __name__=='__main__':
         hue_arr.append(h)
     hue_arr.sort()
 
+    # use the hues from the palette (a single point each) to create a new array
+    # that represents ranges of hues from 0 to 1 with break point that match the midway
+    # point of the hue array.
     hue_diff_arr = [0]
     for idx, val in enumerate(hue_arr):
         if idx + 1 < len(hue_arr):
@@ -120,22 +135,29 @@ if __name__=='__main__':
             hue_diff_arr.append((hue_arr[idx] + 1.0) / 2)
     hue_diff_arr.append(1.0)
 
+    # create the random hues we're going to shift to
     hues = []
     for x in range(1, len(hue_diff_arr)):
         hues.append(random.random())
 
+    # create random saturation changes - we'll only shift the saturation
+    # up or down a little bit
     sats = []
     for x in range(1, len(hue_diff_arr)):
         sats.append(random.random() * .4 - .2)
 
+    # create random value changes - we'll only shift the value
+    # up or down a little bit
     vals = []
     for x in range(1, len(hue_diff_arr)):
         vals.append((random.random()*255*.2) - (.1*255))
 
+    # base 10% chance to fully invert the colors
     invert = False
     if random.random() <= .1:
         invert = True
 
+    # run through all the images and colorize them based on the new h, s, v info
     for idx, texture in enumerate(imgs):
         new_img = colorize(texture, hues, sats, vals, hue_diff_arr, invert)
         new_img.save(files[idx])
