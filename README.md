@@ -6,6 +6,26 @@ This is a mod/patch for Monster Hunter Freedom Unite that will allow you to rand
 
 ## How does the patch work?
 
+The patch works by updating the texture file for each of the monsters with recolored ones. It tries to group similar colors together and update them simlarly so the monsters maintain some of their original shading.
+
+### Option 1 - Apply a pre-built xdelta patch to your image
+
+For this option, you'll need xdelta (https://github.com/jmacd/xdelta).
+
+1. Download the files from the most recent release (https://github.com/nuzcraft/FreedomUniteColorRandomizer/releases/latest)
+   - here, you should see at least one (if not multiple) .xdelta files. These are pre-compiled patches.
+2. Choose a single xdelta file if there are multiple available. Each represents a different randomization; you don't need to apply them all
+3. Copy your original image file and the xdelta file into the same directory as the xdelta executable.
+4. Run xdelta to apply the patch to the original iso
+   - The format is -d -v -s original_file patch_file new_file
+   - ./xdelta3.exe -d -v -s MHP2G_FUC.iso MHP2G_FUCR_v1.0_01.xdelta MHP2G_FUCR_v1.0_xdelta_01.iso
+
+Alternatively, you can use IncognitoMan's patcher, found here: https://github.com/FUComplete/Patch/releases/tag/v1.0. Just copy the xdelta file into the directory with the other xdelta files use for patching FU Complete.
+
+NOTE: As of this writing, I have not tested the patches on anything other than a copy of MHP2G pre-patched with the FUComplete patch from IncognitoMan (https://github.com/FUComplete)
+
+### Option 2 - Create your own unique patch
+
 We're going to open up the game file, find the texture files for the monsters, then use a python script to edit the colors (mostly by shifting hues). Then we'll use some pre-existing tools to pack everything back up into an iso image.
 
 My preferred command line is bash, so all my example commands use bash.
@@ -72,3 +92,10 @@ The file mapping csv contains 6 columns/values for each record.
 - Codestation for mhtools (https://github.com/codestation/mhtools)
 - Svanheulen and IncognitoMan for mhff (https://github.com/IncognitoMan/mhff)
 - Capcom for creating Monster Hunter
+
+## Creating Patches
+
+You can use xdelta to create a patch if you happen to find a great set of randomized colors that you want to share.
+
+- ./xdelta3.exe -e -v -s old_file new_file patch_file
+- ./xdelta3.exe -e -v -s MHP2G_FUC.iso MHP2G_FUCR_v1.0_01.iso MHP2G_FUCR_v1.0_01.xdelta
