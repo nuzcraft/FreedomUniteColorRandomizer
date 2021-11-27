@@ -7,6 +7,7 @@ import random
 import sys
 import os
 import argparse
+import math
 
 rgb_to_hsv = np.vectorize(colorsys.rgb_to_hsv)
 hsv_to_rgb = np.vectorize(colorsys.hsv_to_rgb)
@@ -19,28 +20,34 @@ def shift_hue(arr, hout):
     arr = np.dstack((r, g, b, a))
     return arr
 
-def shift_hue2(arr, new_hues, sat_diff, val_diff, hue_diff_array, invert):
+def shift_hue2(arr, new_hues, sat_diff, val_diff, palette, invert):
     r, g, b, a = np.rollaxis(arr, axis=-1)
     h, s, v = rgb_to_hsv(r, g, b)
     for idx1,hue_array in enumerate(h):
         for idx2, hue in enumerate(hue_array):
-            for idx3, new_hue in enumerate(new_hues):
-                # check to see which band the original hue is in and change it to 
-                # match the hue passed in. Do the same with s and V.
-                if hue >= hue_diff_arr[idx3] and hue <= hue_diff_arr[idx3+1]:
-                    h[idx1][idx2] = new_hue
-                    new_s = s[idx1][idx2] + sat_diff[idx3]
-                    if new_s < 0:
-                        new_s = 0
-                    elif new_s > 1:
-                        new_s = 1
-                    s[idx1][idx2] = new_s
-                    new_v = v[idx1][idx2] + val_diff[idx3]
-                    if new_v < 0:
-                        new_v = 0
-                    elif new_v > 255:
-                        new_v = 255
-                    v[idx1][idx2] = new_v
+            closest_palette_hue_index = 0
+            closest_distance = 1000
+            for idx3, palette_vals in enumerate(palette):
+                # for each hue in the palette, see which is closest to our hue
+                rp, gp, bp = palette_vals
+                hp, sp, vp = rgb_to_hsv(rp, gp, bp)
+                new_distance = distance_hsv(hp, sp, vp, h[idx1][idx2], s[idx1][idx2], v[idx1][idx2])
+                if new_distance < closest_distance:
+                    closest_palette_hue_index = idx3
+                    closest_distance = new_distance
+            h[idx1][idx2] = new_hues[closest_palette_hue_index]
+            new_s = s[idx1][idx2] + sat_diff[closest_palette_hue_index]
+            if new_s < 0:
+                new_s = 0
+            elif new_s > 1:
+                new_s = 1
+            s[idx1][idx2] = new_s
+            new_v = v[idx1][idx2] + val_diff[closest_palette_hue_index]
+            if new_v < 0:
+                new_v = 0
+            elif new_v > 255:
+                new_v = 255
+            v[idx1][idx2] = new_v
     r, g, b = hsv_to_rgb(h, s, v)
     if invert:
         r,g,b = 255-r,255-g,255-b
@@ -53,13 +60,23 @@ def shift_hue2(arr, new_hues, sat_diff, val_diff, hue_diff_array, invert):
 #         r, g, b = 255-r,255-g,255-b
 #     return rgb_to_hsv(r, g, b)
 
-def colorize(image, hues, sats, vals, hue_diff_array, invert):
+def colorize(image, hues, sats, vals, palette, invert):
     # colorize an image to a new hue
     # hue (0-360)
     img = image.convert('RGBA')
     arr = np.array(np.asarray(img).astype('float'))
-    new_img = Image.fromarray(shift_hue2(arr, hues, sats, vals, hue_diff_array, invert).astype('uint8'), 'RGBA')
+    new_img = Image.fromarray(shift_hue2(arr, hues, sats, vals, palette, invert).astype('uint8'), 'RGBA')
     return new_img
+
+def distance(x1, y1, z1, x2, y2, z2):
+    return math.sqrt((x1-x2)**2 + (y1-y2)**2 + (z1-z2)**2)
+
+def distance_hsv(h1, s1, v1, h2, s2, v2):
+    # hues are 0-1, but they also represent 360 degrees where 360 and 0 are both red
+    dh = min(abs(h2-h1), 1-abs(h2-h1)) #this handles the circular nature of hue
+    ds = abs(s2-s1)
+    dv = abs(v2-v1)/255.0
+    return math.sqrt(dh**2+ds**2+dv**2)
 
 if __name__=='__main__':
     parser = argparse.ArgumentParser(description = "Colorize a batch of .pngs with new hues")
@@ -141,16 +158,16 @@ if __name__=='__main__':
         hues.append(random.random())
 
     # create random saturation changes - we'll only shift the saturation
-    # up or down a little bit
+    # up or down a little bit, skew towards up :)
     sats = []
     for x in range(1, len(hue_diff_arr)):
-        sats.append(random.random() * .4 - .2)
+        sats.append(random.random() * .6 - .15)
 
     # create random value changes - we'll only shift the value
-    # up or down a little bit
+    # up or down a little bit, skew towards up :)
     vals = []
     for x in range(1, len(hue_diff_arr)):
-        vals.append((random.random()*255*.2) - (.1*255))
+        vals.append((random.random()*255*.4) - (.1*255))
 
     # base 10% chance to fully invert the colors
     invert = False
@@ -159,5 +176,6 @@ if __name__=='__main__':
 
     # run through all the images and colorize them based on the new h, s, v info
     for idx, texture in enumerate(imgs):
-        new_img = colorize(texture, hues, sats, vals, hue_diff_arr, invert)
+        # new_img = colorize(texture, hues, sats, vals, hue_diff_arr, invert)
+        new_img = colorize(texture, hues, sats, vals, palette, invert)
         new_img.save(files[idx])
