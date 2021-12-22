@@ -6084,8 +6084,8 @@
 6083,data/emmodel/em24_hornetaur_002.pac,em24_hornetaur_002,,,
 6084,data/emmodel/em25_apceros_002.pac,em25_apceros_002,,,
 6085,data/emmodel/em26_monoblos_002_006.pac,em26_monoblos_002_006,,,
-6086,data/emmodel/em27_velocidrome_002.pac,em27_velocidrome_002,8,6075,em16_velociprey_002
-6087,data/emmodel/em28_gendrome_002.pac,em28_gendrome_002,8,6072,em13_genprey_002
+6086,data/emmodel/em27_velocidrome_002.pac,em27_velocidrome_002,4,6075,em16_velociprey_002
+6087,data/emmodel/em28_gendrome_002.pac,em28_gendrome_002,4,6072,em13_genprey_002
 6088,data/emmodel/em29_crystals_w_002.pac,,,,
 6089,data/emmodel/em30_ioprey_002.pac,,,,
 6090,data/emmodel/em31_iodrome_002.pac,em31_iodrome_002,8,6089,em30_ioprey_002
@@ -6105,11 +6105,11 @@
 6104,data/emmodel/em45_redkhezu_002_006.pac,em45_redkhezu_002_006,,,
 6105,data/emmodel/em46_greenplesioth_002_006.pac,em46_greenplesioth_002_006,,,
 6106,data/emmodel/em47_blackgravios_002_006.pac,em47_blackgravios_002_006,,,
-6107,data/emmodel/em48_daimyohermitaur_002_006.pac,em48_daimyohermitaur_002_006,,6125,em66_hermitaur_002
+6107,data/emmodel/em48_daimyohermitaur_002_006.pac,em48_daimyohermitaur_002_006,8,6125,em66_hermitaur_002
 6108,data/emmodel/em49_azurerathalos_002_006.pac,em49_azurerathalos_002_006,,,
 6109,data/emmodel/em50_ashenlao_002.pac,em50_ashenlao_002,,,
-6110,data/emmodel/em51_blangonga_002_006.pac,em51_blangonga_002_006,8,6120,em61_blango_002_006
-6111,data/emmodel/em52_congalala_002_006.pac,em52_congalala_002_006,8,6121,em62_conga_002
+6110,data/emmodel/em51_blangonga_002_006.pac,em51_blangonga_002_006,6,6120,em61_blango_002_006
+6111,data/emmodel/em52_congalala_002_006.pac,em52_congalala_002_006,6,6121,em62_conga_002
 6112,data/emmodel/em53_rajang_002_006.pac,em53_rajang_002_006,,,
 6113,data/emmodel/em54_kushala_002_006.pac,em54_kushala_002_006,,,
 6114,data/emmodel/em55_shen_002_006.pac,em55_shen_002_006,,,
@@ -6134,7 +6134,7 @@
 6133,data/emmodel/em74_wyverian_002.pac,,,,
 6134,data/emmodel/em75_tigrex_002_006.pac,em75_tigrex_002_006,,,
 6135,data/emmodel/em76_akantor_002_006.pac,em76_akantor_002_006,,,
-6136,data/emmodel/em77_giadrome_002.pac,em77_giadrome_002,8,6094,em35_giaprey_002
+6136,data/emmodel/em77_giadrome_002.pac,em77_giadrome_002,4,6094,em35_giaprey_002
 6137,data/emmodel/em78_garuga2_002_006.pac,,,,
 6138,data/emmodel/em79_kingShaka2_002.pac,,,,
 6139,data/emmodel/em80_queenVespoid_002.pac,em80_queenVespoid_002,,,
