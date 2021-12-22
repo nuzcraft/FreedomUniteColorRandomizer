@@ -23,31 +23,34 @@ def shift_hue(arr, hout):
 def shift_hue2(arr, new_hues, sat_diff, val_diff, palette, invert):
     r, g, b, a = np.rollaxis(arr, axis=-1)
     h, s, v = rgb_to_hsv(r, g, b)
-    for idx1,hue_array in enumerate(h):
-        for idx2, hue in enumerate(hue_array):
+    for i in range(len(h)):
+        for j in range(len(h[i])):
             closest_palette_hue_index = 0
             closest_distance = 1000
-            for idx3, palette_vals in enumerate(palette):
-                # for each hue in the palette, see which is closest to our hue
-                rp, gp, bp = palette_vals
-                hp, sp, vp = rgb_to_hsv(rp, gp, bp)
-                new_distance = distance_hsv(hp, sp, vp, h[idx1][idx2], s[idx1][idx2], v[idx1][idx2])
+            for k in range(len(palette)):
+                rp, gp, bp = palette[k]
+                # hp, sp, vp = rgb_to_hsv(rp, gp, bp)
+                # new_distance = distance_hsv(hp, sp, vp, h[i][j], s[i][j], v[i][j])
+                new_distance = distance(rp, gp, bp, r[i][j], g[i][j], b[i][j])
+                # if new_distance <= 20:
+                #     break
                 if new_distance < closest_distance:
-                    closest_palette_hue_index = idx3
+                    closest_palette_hue_index = k
                     closest_distance = new_distance
-            h[idx1][idx2] = new_hues[closest_palette_hue_index]
-            new_s = s[idx1][idx2] + sat_diff[closest_palette_hue_index]
+            h[i][j] = new_hues[closest_palette_hue_index]
+            new_s = s[i][j] + sat_diff[closest_palette_hue_index]
             if new_s < 0:
                 new_s = 0
             elif new_s > 1:
                 new_s = 1
-            s[idx1][idx2] = new_s
-            new_v = v[idx1][idx2] + val_diff[closest_palette_hue_index]
+            s[i][j] = new_s
+            # if v[i][j] >= 255*.2:
+            new_v = v[i][j] + val_diff[closest_palette_hue_index]
             if new_v < 0:
                 new_v = 0
             elif new_v > 255:
                 new_v = 255
-            v[idx1][idx2] = new_v
+            v[i][j] = new_v
     r, g, b = hsv_to_rgb(h, s, v)
     if invert:
         r,g,b = 255-r,255-g,255-b
@@ -126,7 +129,7 @@ if __name__=='__main__':
 
     #color thief generates the palette
     color_thief = ColorThief(merged_filename)
-    palette = color_thief.get_palette(color_count=colorCount) #8 maybe too busy?
+    palette = color_thief.get_palette(color_count=colorCount, quality=1) #8 maybe too busy?
 
     # once the palette is generated, remove the merged image
     os.remove(merged_filename)
@@ -161,13 +164,13 @@ if __name__=='__main__':
     # up or down a little bit, skew towards up :)
     sats = []
     for x in range(1, len(hue_diff_arr)):
-        sats.append(random.random() * .6 - .15)
+        sats.append(random.random() * .6 - .3)
 
     # create random value changes - we'll only shift the value
     # up or down a little bit, skew towards up :)
     vals = []
     for x in range(1, len(hue_diff_arr)):
-        vals.append((random.random()*255*.4) - (.1*255))
+        vals.append((random.random()*255*.4) - (.2*255))
 
     # base 10% chance to fully invert the colors
     invert = False
