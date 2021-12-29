@@ -29,9 +29,9 @@ def shift_hue2(arr, new_hues, sat_diff, val_diff, palette, invert):
             closest_distance = 1000
             for k in range(len(palette)):
                 rp, gp, bp = palette[k]
-                # hp, sp, vp = rgb_to_hsv(rp, gp, bp)
-                # new_distance = distance_hsv(hp, sp, vp, h[i][j], s[i][j], v[i][j])
-                new_distance = distance(rp, gp, bp, r[i][j], g[i][j], b[i][j])
+                hp, sp, vp = rgb_to_hsv(rp, gp, bp)
+                new_distance = distance_hsv(hp, sp, vp, h[i][j], s[i][j], v[i][j])
+                # new_distance = distance(rp, gp, bp, r[i][j], g[i][j], b[i][j])
                 # if new_distance <= 20:
                 #     break
                 if new_distance < closest_distance:
@@ -83,7 +83,7 @@ def distance_hsv(h1, s1, v1, h2, s2, v2):
 
 if __name__=='__main__':
     parser = argparse.ArgumentParser(description = "Colorize a batch of .pngs with new hues")
-    parser.add_argument("-p", "--paletteSize", help = "Example: 4. Higher number means more variations.", required = False, default = "6")
+    parser.add_argument("-p", "--paletteSize", help = "Example: 4. Higher number means more variations.", required = False, default = "5")
     parser.add_argument("-d", "--directory", help = "Example: em01_rathian_002_006/002_image. Main directory to colorize. Used to create the palette. Comma separate for multiple directories.", required = True, default = "")
     parser.add_argument("-s", "--subDirectory", help = "Example: em01_rathian_002_006/002_image. Secondary directory to colorize. Not used to create the palette. Comma separate for multiple directories.", required = False, default = "")
     
@@ -164,18 +164,19 @@ if __name__=='__main__':
     # up or down a little bit, skew towards up :)
     sats = []
     for x in range(1, len(hue_diff_arr)):
-        sats.append(random.random() * .6 - .3)
+        sats.append(random.random() * 1.3 - .3)
 
     # create random value changes - we'll only shift the value
     # up or down a little bit, skew towards up :)
     vals = []
     for x in range(1, len(hue_diff_arr)):
-        vals.append((random.random()*255*.4) - (.2*255))
+        vals.append((random.random()*255*.2) - (.1*255))
+        # vals.append(0)
 
     # base 10% chance to fully invert the colors
     invert = False
-    if random.random() <= .1:
-        invert = True
+    # if random.random() <= .1:
+    #     invert = True
 
     # run through all the images and colorize them based on the new h, s, v info
     for idx, texture in enumerate(imgs):
