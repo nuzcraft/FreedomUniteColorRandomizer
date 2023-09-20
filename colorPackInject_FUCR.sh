@@ -42,10 +42,19 @@ if [[ "$directory" ]]; then
         python data.py r DATA.BIN $subId $subDirectory.pak
     fi
 
-    printf "removing created .paks\n\n"
-    rm $directory.pak
+    printf "renaming .pak to .pac and moving to dedicated directory\n"
+    mkdir -p colorized_pacs
+    mv -- "$directory.pak" "colorized_pacs/${directory%.pak}.pac"
+    mv -n "colorized_pacs/$directory.pac" "colorized_pacs/${directory%%\_*}.pac"
     if [[ "$subDirectory" ]]; then
-        rm $subDirectory.pak
+        mv -- "$subDirectory.pak" "colorized_pacs/${subDirectory%.pak}.pac"
+        mv -n "colorized_pacs/$subDirectory.pac" "colorized_pacs/${subDirectory%%\_*}.pac"
     fi
+
+    # printf "removing created .paks\n\n"
+    # rm $directory.pak
+    # if [[ "$subDirectory" ]]; then
+    #     rm $subDirectory.pak
+    # fi
 fi
 done
