@@ -1,6 +1,7 @@
 # emmodel folders
 em*/
 colorized_pacs/
+# images/test_images/
 
 # bin file
 data.bin
