@@ -1,0 +1,10 @@
+# emmodel folders
+em*/
+colorized_pacs/
+
+# bin file
+data.bin
+
+# tool files
+data.py
+mhtools.jar
