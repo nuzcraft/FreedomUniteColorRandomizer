@@ -8,7 +8,19 @@ This is a mod/patch for Monster Hunter Freedom Unite that will allow you to rand
 
 The patch works by updating the texture file for each of the monsters with recolored ones. It tries to group similar colors together and update them simlarly so the monsters maintain some of their original shading.
 
-### Option 1 - Apply a pre-built xdelta patch to your image
+### Option 1 - Use FUComplete File Replacer
+
+For this option, we'll use IncognitoMan's [FU Complete](https://github.com/FUComplete/Patch). After downloading and running FU Complete on your copy of MHP2G, follow the directions [here](https://github.com/FUComplete/FUCTool#file-replacer) to start using the File Replacer.
+
+1. Download the files from the most [recent release](https://github.com/nuzcraft/FreedomUniteColorRandomizer/releases/latest)
+   - here, you should see at least one (if not multiple) .zip files labeled 'pacs'. These folders contain .pac mod files
+2. Choose .zip file and unzip it. Each represents a different randomization; you don't need to use them all
+3. Drop the .pac files you want to use into the mods folder for the File Replacer and press the `Generate nativePSP folder` button
+4. Continue following the directions [here](https://github.com/FUComplete/FUCTool#file-replacer)
+
+Feel free to mix and match or exclude .pac files. The `fileMapping_FUCR_2g.csv` file can help you identify which files correspond with which monsters. There are resources in FU Complete that can help with that too.
+
+### Option 2 - Apply a pre-built xdelta patch to your image
 
 For this option, you'll need xdelta (https://github.com/jmacd/xdelta).
 
@@ -20,11 +32,11 @@ For this option, you'll need xdelta (https://github.com/jmacd/xdelta).
    - The format is -d -v -s original_file patch_file new_file
    - ./xdelta3.exe -d -v -s MHP2G_FUC.iso MHP2G_FUCR_v1.0_01.xdelta MHP2G_FUCR_v1.0_xdelta_01.iso
 
-Alternatively, you can use IncognitoMan's patcher, found here: https://github.com/FUComplete/Patch/releases/tag/v1.0. Just copy the xdelta file into the directory with the other xdelta files use for patching FU Complete.
+Alternatively, you can use IncognitoMan's patcher, found here: https://github.com/FUComplete/Patch/releases/latest. Just copy the xdelta file into the directory with the other xdelta files use for patching FU Complete.
 
-NOTE: As of this writing, I have not tested the patches on anything other than a copy of MHP2G pre-patched with the FUComplete patch from IncognitoMan (https://github.com/FUComplete)
+NOTE: As of this writing, I have not tested the patches on anything other than a copy of MHP2G pre-patched with the FUComplete patch from IncognitoMan (https://github.com/FUComplete/Patch)
 
-### Option 2 - Create your own unique patch
+### Option 3 - Create your own unique patch
 
 We're going to open up the game file, find the texture files for the monsters, then use a python script to edit the colors (mostly by shifting hues). Then we'll use some pre-existing tools to pack everything back up into an iso image.
 
