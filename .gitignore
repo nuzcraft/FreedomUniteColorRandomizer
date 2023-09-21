@@ -1,0 +1,9 @@
+# emmodel folders
+em*/
+
+# bin file
+data.bin
+
+# tool files
+data.py
+mhtools.jar
