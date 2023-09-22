@@ -57,6 +57,48 @@ def shift_hue2(arr, new_hues, sat_diff, val_diff, palette, invert):
     arr = np.dstack((r, g, b, a))
     return arr
 
+def shift_hue3(arr, new_hues, sat_diff, val_diff, hue_diffs, invert):
+    r, g, b, a = np.rollaxis(arr, axis=-1)
+    h, s, v = rgb_to_hsv(r, g, b)
+    for i in range(len(h)):
+        for j in range(len(h[i])):
+            # closest_palette_hue_index = 0
+            # closest_distance = 1000
+            # for k in range(len(palette)):
+            #     rp, gp, bp = palette[k]
+            #     hp, sp, vp = rgb_to_hsv(rp, gp, bp)
+            #     new_distance = distance_hsv(hp, sp, vp, h[i][j], s[i][j], v[i][j])
+            #     # new_distance = distance(rp, gp, bp, r[i][j], g[i][j], b[i][j])
+            #     # if new_distance <= 20:
+            #     #     break
+            #     if new_distance < closest_distance:
+            #         closest_palette_hue_index = k
+            #         closest_distance = new_distance
+            # h[i][j] = new_hues[closest_palette_hue_index]
+            # new_s = s[i][j] + sat_diff[closest_palette_hue_index]
+            # if new_s < 0:
+            #     new_s = 0
+            # elif new_s > 1:
+            #     new_s = 1
+            # s[i][j] = new_s
+            # # if v[i][j] >= 255*.2:
+            # new_v = v[i][j] + val_diff[closest_palette_hue_index]
+            # if new_v < 0:
+            #     new_v = 0
+            # elif new_v > 255:
+            #     new_v = 255
+            # v[i][j] = new_v
+            for k in range(len(hue_diffs) - 1):
+                if h[i][j] >= hue_diffs[k] and h[i][j] < hue_diffs[k+1]:
+                    h[i][j] = new_hues[k]
+                    break
+            
+    r, g, b = hsv_to_rgb(h, s, v)
+    if invert:
+        r,g,b = 255-r,255-g,255-b
+    arr = np.dstack((r, g, b, a))
+    return arr
+
 # def invert_hsv(h, s, v):
 #     r, g, b = hsv_to_rgb(h, s, v)
 #     if (v <= .2 or (v>.8 and s <= .2)):
@@ -68,7 +110,7 @@ def colorize(image, hues, sats, vals, palette, invert):
     # hue (0-360)
     img = image.convert('RGBA')
     arr = np.array(np.asarray(img).astype('float'))
-    new_img = Image.fromarray(shift_hue2(arr, hues, sats, vals, palette, invert).astype('uint8'), 'RGBA')
+    new_img = Image.fromarray(shift_hue3(arr, hues, sats, vals, palette, invert).astype('uint8'), 'RGBA')
     return new_img
 
 def distance(x1, y1, z1, x2, y2, z2):
@@ -134,6 +176,8 @@ if __name__=='__main__':
     # once the palette is generated, remove the merged image
     os.remove(merged_filename)
 
+    # print(palette)
+
     # take the palette and get the hues for that palette
     # we'll use these to create a range of hues randomize to the same destination hue
     hue_arr = []
@@ -143,6 +187,8 @@ if __name__=='__main__':
         # print(int(h*360))
         hue_arr.append(h)
     hue_arr.sort()
+
+    # print(hue_arr)
 
     # use the hues from the palette (a single point each) to create a new array
     # that represents ranges of hues from 0 to 1 with break point that match the midway
@@ -155,10 +201,18 @@ if __name__=='__main__':
             hue_diff_arr.append((hue_arr[idx] + 1.0) / 2)
     hue_diff_arr.append(1.0)
 
+    hue_diff_arr = [0.0, 0.0167, 0.1139, 0.2083, 0.2778, 0.3861, 0.4444, 0.5528, 0.6944, 0.7639, 0.9556, 1.0]
+    print(hue_diff_arr)
+
     # create the random hues we're going to shift to
     hues = []
-    for x in range(1, len(hue_diff_arr)):
+    for x in range(1, len(hue_diff_arr) - 1):
         hues.append(random.random())
+    hues.append(hues[0])
+
+    hues = [0.5, 0.583, 0.667, 0.75, 0.833, 0.917, 0, 0.083, 0.25, .333, 0.5]
+
+    print(hues)
 
     # create random saturation changes - we'll only shift the saturation
     # up or down a little bit, skew towards up :)
@@ -181,5 +235,8 @@ if __name__=='__main__':
     # run through all the images and colorize them based on the new h, s, v info
     for idx, texture in enumerate(imgs):
         # new_img = colorize(texture, hues, sats, vals, hue_diff_arr, invert)
-        new_img = colorize(texture, hues, sats, vals, palette, invert)
+        # new_img = colorize(texture, hues, sats, vals, palette, invert)
+        new_img = colorize(texture, hues, sats, vals, hue_diff_arr, invert)
+        # new_name = files[idx].replace("palette", "new_palette")
         new_img.save(files[idx])
+        # new_img.save(new_name)
