@@ -94,7 +94,6 @@ if __name__=='__main__':
 
     directories = argument.directory
     subdirectories = argument.subDirectory
-    forceWhiteShift = argument.forceWhiteShift
     ls_directories = directories.split(',')
     ls_subdirectories = subdirectories.split(',')
     imgs = []
@@ -153,7 +152,7 @@ if __name__=='__main__':
         print(rainbow.hue_array[idx].name, "to", hue.name)
     print("whites to", new_hue_white.name)
     alter_white = False
-    if random.random() >= 0.5 or forceWhiteShift == "True":
+    if random.random() >= 0.5:
         alter_white = True
     print("alter white?", alter_white)
 
