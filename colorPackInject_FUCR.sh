@@ -19,7 +19,7 @@ if [[ "$directory" ]]; then
     fi
     directory_02_cmd="$paletteSize_cmd-d $directory/002_image$subDirectory_cmd"
     printf "colorizing $directory\n"
-    python n_colorize.py $directory_02_cmd
+    python colorize.py $directory_02_cmd
     if [[ "$directory" == *"006"* ]]; then
         if [[ "$subDirectory" == *"006"* ]]; then
             subDirectory_06_cmd=" -s $subDirectory/006_image"
