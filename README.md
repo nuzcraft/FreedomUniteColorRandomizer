@@ -1,3 +1,11 @@
+<div align="center>
+[![LATEST](https://img.shields.io/github/v/release/nuzcraft/FreedomUniteColorRandomizer?label=latest
+)](https://github.com/nuzcraft/FreedomUniteColorRandomizer/releases/latest)[![DOWNLOADS](https://img.shields.io/github/downloads/nuzcraft/FreedomUniteColorRandomizer/total
+)](https://github.com/nuzcraft/FreedomUniteColorRandomizer/releases)
+</div>
+
+---
+
 # Freedom Unite Color Randomizer Patch
 
 This is a mod/patch for Monster Hunter Freedom Unite that will allow you to randomize the colors of the monsters. I've included files and instructions for how to colorize and patch your copy of the game which guarantees that you'll be fighting 100% unique monsters!
