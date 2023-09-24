@@ -1,7 +1,7 @@
 <div align="center">
-[![LATEST](https://img.shields.io/github/v/release/nuzcraft/FreedomUniteColorRandomizer?label=latest
-)](https://github.com/nuzcraft/FreedomUniteColorRandomizer/releases/latest)[![DOWNLOADS](https://img.shields.io/github/downloads/nuzcraft/FreedomUniteColorRandomizer/total
-)](https://github.com/nuzcraft/FreedomUniteColorRandomizer/releases)
+
+[![LATEST](https://img.shields.io/github/v/release/nuzcraft/FreedomUniteColorRandomizer?label=latest)](https://github.com/nuzcraft/FreedomUniteColorRandomizer/releases/latest)[![DOWNLOADS](https://img.shields.io/github/downloads/nuzcraft/FreedomUniteColorRandomizer/total)](https://github.com/nuzcraft/FreedomUniteColorRandomizer/releases)
+
 </div>
 
 ---
