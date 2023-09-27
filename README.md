@@ -53,6 +53,7 @@ For this option, you'll need [xdelta](https://github.com/jmacd/xdelta).
 4. Run xdelta to apply the patch to the original iso
    - The format is -d -v -s original_file patch_file new_file
    - `./xdelta3.exe -d -v -s MHP2G_FUC.iso MHP2G_FUCR_v1.0_01.xdelta MHP2G_FUCR_v1.0_xdelta_01.iso`
+5. The new .iso is now patched and ready to play!
 
 Alternatively, you can use IncognitoMan's [FU Complete patcher](https://github.com/FUComplete/Patch/releases/latest). Just copy the xdelta file into the directory with the other xdelta files use for patching FU Complete.
 
@@ -142,3 +143,5 @@ The file mapping csv contains 6 columns/values for each record.
 ## Credits
 
 Nuzcraft - Development, Programming
+
+All code and instructions for creating your own custom colorizations are available in [the github repo](https://github.com/nuzcraft/FreedomUniteColorRandomizer/) for this project.
