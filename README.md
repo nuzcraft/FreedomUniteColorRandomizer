@@ -34,7 +34,7 @@ For this option, we'll use IncognitoMan's [FU Complete](https://github.com/FUCom
 
 1. Download the files from the most [recent release](https://github.com/nuzcraft/FreedomUniteColorRandomizer/releases/latest)
    - here, you should see at least one (if not multiple) .zip files labeled 'pacs'. These folders contain .pac mod files
-2. Choose .zip file and unzip it. Each represents a different randomization; you don't need to use them all
+2. Choose a .zip file and unzip it. Each represents a different randomization; you don't need to use them all
 3. Drop the .pac files you want to use into the mods folder for the File Replacer and press the `Generate nativePSP folder` button
 4. Continue following the directions [here](https://github.com/FUComplete/FUCTool#file-replacer)
 
