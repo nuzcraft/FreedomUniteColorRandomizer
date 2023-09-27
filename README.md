@@ -12,7 +12,7 @@ This is a mod/patch for Monster Hunter Portable 2nd G that will allow you to ran
 
 <div align="center">
 
-<img src="https://github.com/nuzcraft/FreedomUniteColorRandomizer/blob/improve_colorize/images/002_FUCR_collage.jpg?raw=true">
+<img src="https://github.com/nuzcraft/FreedomUniteColorRandomizer/assets/20135847/d41079ac-d094-4c78-8602-805389d74d69">
 
 </div>
 
