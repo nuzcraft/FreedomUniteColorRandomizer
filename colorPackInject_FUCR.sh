@@ -7,7 +7,8 @@ do
 # echo "$id" "$file" "$directory" "$paletteSize" "$subId" "$subDirectory";
 if [[ "$directory" ]]; then
     if [[ "$paletteSize" ]]; then
-        paletteSize_cmd="-p $paletteSize "
+        # paletteSize_cmd="-p $paletteSize "
+        paletteSize_cmd =""
     else
         paletteSize_cmd=""
     fi
@@ -25,7 +26,7 @@ if [[ "$directory" ]]; then
         else
             subDirectory_cmd=""
         fi
-        directory_06_cmd="-p 2 -d $directory/006_image$subDirectory_06_cmd"
+        directory_06_cmd="-d $directory/006_image$subDirectory_06_cmd"
         python colorize.py $directory_06_cmd
     fi
 
