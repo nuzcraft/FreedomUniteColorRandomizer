@@ -8,7 +8,7 @@ do
 if [[ "$directory" ]]; then
     if [[ "$paletteSize" ]]; then
         # paletteSize_cmd="-p $paletteSize "
-        paletteSize_cmd =""
+        paletteSize_cmd=""
     else
         paletteSize_cmd=""
     fi

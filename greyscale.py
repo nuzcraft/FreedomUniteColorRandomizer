@@ -1,7 +1,5 @@
-from PIL import Image, ImageOps
+from PIL import Image
 import numpy as np
-import colorsys
-import random
 import argparse
 import os
         
@@ -9,7 +7,7 @@ def greyscale(arr):
     r,g,b,a = np.rollaxis(arr, axis=-1)
     for i in range(len(r)):
         for j in range(len(r[i])):
-            grey = 0.299*r[i][j] + 0.587*g[i][j] + 0.144*b[i][j]
+            grey = max(min(0.299*r[i][j] + 0.587*g[i][j] + 0.144*b[i][j], 255.0), 0.0)
             r[i][j] = grey
             g[i][j] = grey
             b[i][j] = grey
@@ -35,23 +33,19 @@ if __name__=='__main__':
         for file in os.listdir(directory):
             if file.endswith('.png'):
                 filename = directory + '/' + file
-                new_filename = directory + '/orig_' + file
-                os.rename(filename, new_filename)
-                imgs.append(Image.open(new_filename))
-                files.append(new_filename)
+                imgs.append(Image.open(filename))
+                files.append(filename)
     
     if argument.subDirectory:
         for subdirectory in ls_subdirectories:
             for file in os.listdir(subdirectory):
                 if file.endswith('.png'):
                     filename = subdirectory + '/' + file
-                    new_filename = directory + '/orig_' + file
-                    imgs.append(Image.open(new_filename))
-                    files.append(new_filename)
+                    imgs.append(Image.open(filename))
+                    files.append(filename)
 
     for idx, texture in enumerate(imgs):
         tex = texture.convert('RGBA')
         arr = np.array(np.asarray(tex).astype('float'))
         new_img = Image.fromarray(greyscale(arr).astype('uint8'), 'RGBA')
-        new_name = files[idx].replace("orig_", "")
-        new_img.save(new_name)
+        new_img.save(files[idx])
