@@ -10,7 +10,7 @@ This is a mod/patch for Monster Hunter Portable 2nd G that will allow you to ran
 
 ## How does the patch work?
 
-The patch works by updating the texture file for each of the monsters with recolored ones. It tries to group similar colors together and update them so the monsters maintain some of their original shading.
+The patch works by updating the texture file for each of the monsters with recolored ones. It tries to group similar colors together and update them so the monsters maintain some of their original shading. Colorization does not happen at runtime. I've provided batches of colorized monsters in patches and mod files that can be applied to your game.
 
 ## Applying the Patch
 

@@ -1,6 +1,7 @@
 # emmodel folders
 em*/
 colorized_pacs/
+!images/greyscale_accent_gimp_files/em*/
 # images/test_images/
 
 # bin file
