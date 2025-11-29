@@ -2,9 +2,9 @@
 # cpi = color, pack, inject
 # this script takes in a csv, and uses the contents to color, pack, and inject files into DATA.BIN
 printf "searching for directories to color, pack, and inject\n\n"
-sed 's/"//g' $1 | while IFS=, read id file directory paletteSize subId subDirectory;
+sed 's/"//g' $1 | while IFS=, read id file directory paletteSize subId subDirectory bwcompress;
 do 
-# echo "$id" "$file" "$directory" "$paletteSize" "$subId" "$subDirectory";
+# echo "$id" "$file" "$directory" "$paletteSize" "$subId" "$subDirectory" "$bwcompress";
 if [[ "$directory" ]]; then
     if [[ "$paletteSize" ]]; then
         # paletteSize_cmd="-p $paletteSize "
@@ -17,9 +17,14 @@ if [[ "$directory" ]]; then
     else
         subDirectory_cmd=""
     fi
+    if [[ "$bwcompress" ]]; then
+        compress_cmd=" -c True"
+    else
+        compress_cmd=""
+    fi
     directory_02_cmd="$paletteSize_cmd-d $directory/002_image$subDirectory_cmd"
     printf "colorizing $directory\n"
-    python colorize.py $directory_02_cmd
+    python colorize.py $directory_02_cmd $compress_cmd
     if [[ "$directory" == *"006"* ]]; then
         if [[ "$subDirectory" == *"006"* ]]; then
             subDirectory_06_cmd=" -s $subDirectory/006_image"
@@ -27,7 +32,7 @@ if [[ "$directory" ]]; then
             subDirectory_cmd=""
         fi
         directory_06_cmd="-d $directory/006_image$subDirectory_06_cmd"
-        python colorize.py $directory_06_cmd
+        python colorize.py $directory_06_cmd $compress_cmd
     fi
 
     printf "packing $directory\n"

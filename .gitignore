@@ -3,6 +3,8 @@ em*/
 colorized_pacs/
 !images/greyscale_accent_gimp_files/em*/
 # images/test_images/
+rainbow/
+Monster/
 
 # bin file
 data.bin
