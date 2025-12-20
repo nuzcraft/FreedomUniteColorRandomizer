@@ -104,15 +104,35 @@ if __name__=='__main__':
                         val = h[i][j] * 360.0
                         per = (val - color_values[k]) / (color_values[k + 1] - color_values[k])
                         per = -(math.cos(math.pi * per) - 1) / 2
-                        hue1 = new_hues[k]
-                        hue2 = new_hues[k + 1]
-                        if hue1 == 0 and hue2 > 180:
-                            hue1 = 360
-                        elif hue1 == 360 and hue2 <= 180:
-                            hue1 = 0
-                        if hue1 > hue2:
-                            per = 1.0 - per
-                        new_val = per * abs(hue2 - hue1) + min(hue2, hue1)
+                        hues = []
+                        hues.append(new_hues[k])
+                        hues.append(new_hues[k + 1])
+                        # hue1 = new_hues[k]
+                        # hue2 = new_hues[k + 1]
+                        # if hues[0] == 0 and hues[1] > 180:
+                        #     hues[0] = 360
+                        # elif hues[0] == 360 and hues[1] <= 180:
+                        #     hues[0] = 0
+
+                        if hues[0] < hues[1]:
+                            if hues[1] - hues[0] >= 180:
+                                hues[1] = hues[1] - 360
+                                per = 1.0 - per
+                        elif hues[0] > hues[1]:
+                            if hues[0] - hues[1] > 180:
+                                hues[0] = hues[0] - 360
+                            else:
+                                per = 1.0 - per
+
+                        # hues.sort()
+                        # if hues[1] - hues[0] >= 180:
+                        #     hues[1] = hues[1] - 360
+                        #     per = 1.0 - per
+                        # hues.sort()
+
+                        new_val = per * abs(hues[1] - hues[0]) + min(hues[1], hues[0])
+                        if new_val < 0:
+                            new_val += 360
                         h[i][j] = new_val / 360.0
                 
                 # compress blacks and whites for specific files
